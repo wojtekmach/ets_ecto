@@ -1,8 +1,17 @@
+defmodule Article do
+  use Ecto.Schema
+
+  schema "articles" do
+    field :title, :string
+  end
+end
+
 defmodule ETS.EctoTest do
   use ExUnit.Case
-  doctest ETS.Ecto
+  import Ecto.Query
 
   test "the truth" do
-    assert 1 + 1 == 2
+    q = from(a in Article)
+    assert TestRepo.all(q) == []
   end
 end
