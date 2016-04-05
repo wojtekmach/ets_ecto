@@ -12,6 +12,9 @@ defmodule ETS.EctoTest do
 
   test "the truth" do
     q = from(a in Article)
-    assert TestRepo.all(q) == []
+    assert [] = TestRepo.all(q)
+
+    TestRepo.insert!(%Article{title: "Title 1"})
+    assert [%Article{title: "Title 1"}] = TestRepo.all(q)
   end
 end

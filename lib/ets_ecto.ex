@@ -12,8 +12,23 @@ defmodule ETS.Ecto do
   defmodule Worker do
     use GenServer
 
+    @ets :ets_ecto
+
     def start_link do
       GenServer.start_link(__MODULE__, [], name: __MODULE__)
+    end
+
+    def init(_opts) do
+      :ets.new(@ets, [:named_table, :set, :public])
+      {:ok, []}
+    end
+
+    def insert(schema, id, params) do
+      :ets.insert(@ets, {{schema, id}, params})
+    end
+
+    def all do
+      :ets.tab2list(@ets)
     end
   end
 
@@ -31,17 +46,28 @@ defmodule ETS.Ecto do
 
   def prepare(operation, query), do: {:nocache, {operation, query}}
 
-  def autogenerate(_), do: raise "Not supported by adapter"
+  def autogenerate(_) do
+    :erlang.unique_integer()
+  end
 
   ## Reads
 
   def execute(_repo, %{fields: _fields, sources: _sources}, {:nocache, {:all, _query}}, [] = _params, _preprocess, _opts) do
-    {0, []}
+    items =
+      for {{schema, _id}, params} <- Worker.all do
+        [struct(schema, params)]
+      end
+
+    {0, items}
   end
 
   ## Writes
 
-  def insert(_repo, _meta, _params, _autogen, _opts), do: raise "Not implemented yet"
+  def insert(_repo, %{schema: schema}, params, _autogen, _opts) do
+    id = Keyword.fetch!(params, :id)
+    Worker.insert(schema, id, params)
+    {:ok, params}
+  end
 
   def insert_all(_, _, _, _, _, _), do: raise "Not implemented yet"
 
