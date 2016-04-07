@@ -27,6 +27,10 @@ defmodule ETS.Ecto do
       :ets.insert(@ets, {{schema, id}, params})
     end
 
+    def delete(schema, id) do
+      :ets.delete(@ets, {schema, id})
+    end
+
     def all do
       :ets.tab2list(@ets)
     end
@@ -84,7 +88,11 @@ defmodule ETS.Ecto do
 
   def insert_all(_, _, _, _, _, _), do: raise "Not implemented yet"
 
-  def delete(_, _, _, _), do: raise "Not implemented yet"
+  def delete(_repo, %{schema: schema}, filter, _opts) do
+    id = Keyword.fetch!(filter, :id)
+    Worker.delete(schema, id)
+    {:ok, []}
+  end
 
   def update(_repo, _meta, _params, _filter, _autogen, _opts), do: raise "Not implemented yet"
 end

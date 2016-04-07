@@ -30,4 +30,15 @@ defmodule ETS.EctoTest do
     q = from(a in Article, select: a.title)
     assert TestRepo.all(q) |> Enum.sort() == ["Title 1", "Title 2"]
   end
+
+  test "delete" do
+    article = TestRepo.insert!(%Article{title: "Title 1"})
+    TestRepo.insert!(%Article{title: "Title 2"})
+
+    q = from(a in Article, select: a.title)
+    assert TestRepo.all(q) |> Enum.sort() == ["Title 1", "Title 2"]
+
+    TestRepo.delete!(article)
+    assert TestRepo.all(q) |> Enum.sort() == ["Title 2"]
+  end
 end
