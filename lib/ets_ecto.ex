@@ -30,6 +30,10 @@ defmodule ETS.Ecto do
     def all do
       :ets.tab2list(@ets)
     end
+
+    def clear do
+      :ets.delete_all_objects(@ets)
+    end
   end
 
   def child_spec(_repo, _opts) do

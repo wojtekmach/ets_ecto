@@ -10,6 +10,11 @@ defmodule ETS.EctoTest do
   use ExUnit.Case
   import Ecto.Query
 
+  setup do
+    ETS.Ecto.Worker.clear()
+    :ok
+  end
+
   test "the truth" do
     q = from(a in Article)
     assert [] = TestRepo.all(q)
