@@ -56,13 +56,22 @@ defmodule ETS.Ecto do
 
   ## Reads
 
-  def execute(_repo, %{fields: _fields, sources: _sources}, {:nocache, {:all, _query}}, [] = _params, _preprocess, _opts) do
+  def execute(_repo, %{fields: fields, sources: _sources}, {:nocache, {:all, _query}}, [] = _params, preprocess, _opts) do
     items =
-      for {{schema, _id}, params} <- Worker.all do
-        [struct(schema, params)]
+      for {{_schema, _id}, params} <- Worker.all do
+        process_item(params, fields, preprocess)
       end
 
     {0, items}
+  end
+
+  defp process_item(params, [{:&, [], _}] = fields, preprocess) do
+    [preprocess.(hd(fields), Keyword.values(params), nil)]
+  end
+  defp process_item(params, exprs, preprocess) do
+    Enum.map(exprs, fn {{:., [], [{:&, [], [0]}, field]}, _, []} ->
+      preprocess.(field, Keyword.fetch!(params, field), nil)
+    end)
   end
 
   ## Writes
