@@ -65,5 +65,9 @@ defmodule ETS.Ecto do
     {:ok, []}
   end
 
-  def update(_repo, _meta, _params, _filter, _autogen, _opts), do: raise "Not implemented yet"
+  def update(_repo, %{schema: schema}, params, filter, _autogen, _opts) do
+    id = Keyword.fetch!(filter, :id)
+    Worker.update(schema, id, params)
+    {:ok, %{}}
+  end
 end

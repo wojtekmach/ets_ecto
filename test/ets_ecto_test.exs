@@ -41,4 +41,12 @@ defmodule ETS.EctoTest do
     TestRepo.delete!(article)
     assert TestRepo.all(q) |> Enum.sort() == ["Title 2"]
   end
+
+  test "update" do
+    article = TestRepo.insert!(%Article{title: "Title 1"})
+    article = TestRepo.update!(Ecto.Changeset.change(article, title: "Title 1 - updated"))
+
+    assert article.title == "Title 1 - updated"
+    assert [%{title: "Title 1 - updated"}] = TestRepo.all(Article)
+  end
 end

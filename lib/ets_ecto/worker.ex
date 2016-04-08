@@ -20,6 +20,13 @@ defmodule ETS.Ecto.Worker do
     :ets.delete(@ets, {schema, id})
   end
 
+  # TODO: handle invalid id
+  # TODO: make atomic
+  def update(schema, id, new_params) do
+    {{_schema, _id}, params} = :ets.lookup(@ets, {schema, id}) |> hd
+    insert(schema, id, Keyword.merge(params, new_params))
+  end
+
   def all do
     :ets.tab2list(@ets)
   end
