@@ -1,5 +1,7 @@
 # ETS.Ecto
 
+[![Build Status](https://travis-ci.org/wojtekmach/ets_ecto.svg?branch=master)](https://travis-ci.org/wojtekmach/ets_ecto)
+
 Ecto adapter for ETS table. Might be someday useful for speeding up tests, but right now it's primarly used for learning more about Ecto and ETS.
 
 ## Usage
