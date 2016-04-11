@@ -16,6 +16,14 @@ defmodule ETS.Ecto.Worker do
     :ets.insert(@ets, {{schema, id}, params})
   end
 
+  def insert_all(schema, entries) do
+    objects =
+      Enum.map(entries, fn params ->
+        {{schema, Keyword.fetch!(params, :id)}, params}
+      end)
+    :ets.insert(@ets, objects)
+  end
+
   def delete(schema, id) do
     :ets.delete(@ets, {schema, id})
   end

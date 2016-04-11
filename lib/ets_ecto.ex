@@ -1,3 +1,4 @@
+# TODO: add proper returns to all write operations, instead of []/%{}.
 defmodule ETS.Ecto do
   ## Boilerplate
 
@@ -57,7 +58,10 @@ defmodule ETS.Ecto do
     {:ok, params}
   end
 
-  def insert_all(_, _, _, _, _, _), do: raise "Not implemented yet"
+  def insert_all(_repo, %{schema: schema}, _header, rows, _returning, _opts) do
+    Worker.insert_all(schema, rows)
+    {:ok, []}
+  end
 
   def delete(_repo, %{schema: schema}, filter, _opts) do
     id = Keyword.fetch!(filter, :id)
