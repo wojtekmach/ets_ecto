@@ -1,3 +1,5 @@
-%{"decimal": {:hex, :decimal, "1.1.1"},
-  "ecto": {:hex, :ecto, "2.0.0-beta.2"},
-  "poolboy": {:hex, :poolboy, "1.5.1"}}
+%{
+  "decimal": {:hex, :decimal, "1.6.0", "bfd84d90ff966e1f5d4370bdd3943432d8f65f07d3bab48001aebd7030590dcc", [:mix], [], "hexpm"},
+  "ecto": {:hex, :ecto, "3.0.4", "5d0e2b89baaa03eac37ec49f9018c39a4e2fb6501dc3ff5a839de742e171a09f", [:mix], [{:decimal, "~> 1.6", [hex: :decimal, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: true]}, {:poison, "~> 2.2 or ~> 3.0", [hex: :poison, repo: "hexpm", optional: true]}], "hexpm"},
+  "poolboy": {:hex, :poolboy, "1.5.1", "6b46163901cfd0a1b43d692657ed9d7e599853b3b21b95ae5ae0a777cf9b6ca8", [:rebar], [], "hexpm"},
+}

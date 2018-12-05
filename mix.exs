@@ -3,11 +3,11 @@ defmodule ETS.Ecto.Mixfile do
 
   def project do
     [app: :ets_ecto,
-     version: "0.0.1",
-     elixir: "~> 1.2",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps]
+    version: "0.0.1",
+    elixir: "~> 1.7",
+    build_embedded: Mix.env == :prod,
+    start_permanent: Mix.env() == :prod,
+    deps: deps()]
   end
 
   # Configuration for the OTP application
@@ -27,6 +27,6 @@ defmodule ETS.Ecto.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:ecto, "~> 2.0.0-beta"}]
+    [{:ecto, "~> 3.0"}]
   end
 end
